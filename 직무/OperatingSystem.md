@@ -317,6 +317,8 @@ cpu 실행하고 있는 도중에 입출력 장치에서 필요할 때 마다 �
 <hr>
 </details>
 
+***
+
 
 <details>
    <summary><strong><span style="border-bottom:0.05em solid">교착상태가 발생하기 위한 조건은?</span></strong></summary>
@@ -503,6 +505,7 @@ cpu 실행하고 있는 도중에 입출력 장치에서 필요할 때 마다 �
 <hr>
 </details>
 
+***
 
 <details>
    <summary><span style="border-bottom:0.05em solid"><strong>Mutex vs Semaphore</strong></span></summary>
