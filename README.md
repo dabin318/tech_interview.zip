@@ -40,7 +40,6 @@
 - <a href="/직무/OperatingSystem.md"><img width="15px" src="/image/os.png"/> <b>Operating System</b></a>
 - <a href="/직무/SoftwareEngineering.md"><img width="15px" src="/image/se.png"/> <b>Software Engineering</b></a>
 - <a href="/직무/Android.md"><img width="15px" src="/image/android.png"/> <b>Android</b></a>
-- <a href="/직무/Frontend.md"><img width="15px" src="/image/frontend.png"/> <b>Frontend</b></a>
 - <a href="/직무/RxJava.md"><img width="15px" src="/image/rxjava.png"/> <b>RxJava</b></a>
 - <a href="/직무/Git.md"><img width="15px" src="/image/git.png"/> <b>Git</b></a>
 - <a href="/직무/Coding.md">✏️ **손코딩 문제**</a>
