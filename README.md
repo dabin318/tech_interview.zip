@@ -35,12 +35,12 @@
 - <a href="/직무/OperatingSystem.md"><img width="15px" src="/image/os.png"/> <b>Operating System</b></a>
 - <a href="/직무/Algorithm.md"><img width="15px" src="/image/algorithm.png"/> <b>Algorithm</b></a>
 - <a href="/직무/Network.md"><img width="15px" src="/image/network.png"/> <b>Network</b></a>
-- <a href="/직무/RxJava.md"><img width="15px" src="/image/rxjava.png"/> <b>RxJava</b></a>
 - <a href="/직무/Git.md"><img width="15px" src="/image/git.png"/> <b>Git</b></a>
 - <a href="/직무/Coding.md">✏️ **손코딩 문제**</a>
 <br>
 
 ## 👉 기술 면접2
+- <a href="/직무/RxJava.md"><img width="15px" src="/image/rxjava.png"/> <b>RxJava</b></a>
 - <a href="/직무/CPP.md"><img width="15px" src="/image/cpp.png"/> <b>C++</b></a>
 - <a href="/직무/JAVA.md"><img width="15px" src="/image/java.png"/> <b>JAVA</b></a>
 - <a href="/직무/DataStructure.md"><img width="15px" src="/image/datastructure.png"/> <b>Data Structrue</b></a>
