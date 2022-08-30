@@ -732,57 +732,70 @@ exec()를 사용하는 경우는 child 에서는 parent 와 다른 동작을 하
 # 메모리<a name = "outline"></a>
 
 <details>
-   <summary><span style="border-bottom:0.05em solid"><strong>메모리 구조의 순서가 어떻게 되는가? CPU에서 가까운 순으로 말해보시오.</strong></span></summary>
-<hr>
-   <p>레지스터, 캐시, 주기억장치, 보조기억장치 순서입니다.</p>
-   <p>CPU는 프로그램 실행 시 먼저 레지스터에 필요한 데이터가 있는지 확인합니다.</p>
-   <p>레지스터에 필요한 데이터가 존재하지 않는다면 캐시를, 캐시에도 없다면 주기억장치를, 주기억장치에도 없다면 보조기억장치를 확인하며 필요한 데이터를 적재합니다.</p>
-   <p>https://popcorntree.tistory.com/68</a></p>
-   <figure/></a></figure>
-   <ul>
-      <li><strong>레지스터</strong> : CPU 내에 존재하는 메모리로 빠르고 작다.</li>
-   </ul>
-   <ul>
-      <li><strong>캐시</strong> : CPU와 주기억장치 사이에서 중간 저장소 역할을 함. Locality 특성 이용</li>
-   </ul>
-   <ul>
-      <li><strong>주기억장치</strong> : 현재 수행되는 프로그램과 데이터 저장</li>
-   </ul>
-   <ul>
-      <li><strong>보조기억장치</strong> : 용량이 크나 느리다.</li>
-   </ul>
+   <summary><span style="border-bottom:0.05em solid"><strong>메모리 관리자=MMU란?</strong></span></summary>
 
-<hr>
+ - `정의`
+   -  MMU(메모리 관리 유닛)
+     - CPU가 메모리에 접근하는 것을 관리하는 컴퓨터 하드웨어 부품이다. 
+     - 가상 메모리 주소를 실제 메모리 주소로 변환  
+     - 가져오기 / 배치 / 재배치 작업을 한다
+   
+</details>
+
+### 1️⃣가져오기 정책<a name = "outline"></a>
+
+<details>
+   <summary><span style="border-bottom:0.05em solid"><strong>Demand Paging=요구페이징 이란?</strong></span></summary>
+
+ - `정의`
+    - 프로세스의 모든 페이지를 메모리에 올려두지 않고, 필요할 때=사용자가 요구할 때 메모리에 올리는 것
+    EX) 포토샵 본 프로그램은 메모리에 올려두고 외부필터는 사용자가 필요할 때 메모리로 가져오기
+- `장점`
+    - 메모리 절약
+    - 메모리 효율 관리
+    - 응답 속도 향상
+   
 </details>
 
 
 <details>
-   <summary><span style="border-bottom:0.05em solid"><strong>페이지와 세그멘테이션에 대해서 설명해 보시오.</strong></span></summary>
+   <summary><span style="border-bottom:0.05em solid"><strong>미리 가져오기?</strong></span></summary>
+
+ - `정의`
+    - 요구페이징과 반대로 앞으로 필요할 것이라고 예상되는 페이지를 미리 가져오기
+    EX) 캐시 메모리
+- `장점`
+    - 빠르게 사용가능
+   
+</details>
+
+### 2️⃣배치정책<a name = "outline"></a>
+
+<details>
+   <summary><span style="border-bottom:0.05em solid"><strong>메모리 관리 기법</strong></span></summary>
    
 ![Untitled](https://user-images.githubusercontent.com/89257243/187341137-ffd30a6e-7658-4e22-9138-5a4f99657f3e.png)
-- `연속 메모리 할당` : 하나의 프로세스 전체를 연속된 메모리 공간에 적재하는 것
-    - `고정분할`
-        - 물리적 메모리를 몇개의 영구적 분할로 나눔
-        - 분할당 하나의 프로그램을 적재
-        - 내부단편화 발생 가능
+- `연속 메모리 할당` : 프로그램 전체가 하나의 커다란 공간에 연속적으로 할당되어야 함
     - `가변분할`
         - 파티션이 동적으로 생성됨 → 처음에 몇개의 고정된 분할을 만들어 두는 것 아님.
         - 각 프로세스는 자신의 크기와 일치하는 파티션에 들어가게 됨
-        - 외부단편화 발생 가능
+        - **외부단편화** 발생 가능
+    - `고정분할`
+        - 물리적 메모리를 몇개의 영구적 분할로 나눔
+        - 분할당 하나의 프로그램을 적재
+        - **내부단편화** 발생 가능
    
 ![Untitled (1)](https://user-images.githubusercontent.com/89257243/187342985-3315d689-c35e-4590-87a9-aff931b1f94a.png)
    
    
-- `불연속 메모리 할당`: 하나의 프로세스가 여러개로 나뉘어,  메모리 공간에 분산되어 올라갈 수 있음
-     - `페이징` => 페이지 고정사이즈 = 고정분할
+- `불연속 메모리 할당`: 프로그램의 일부가 서로 다른 주소 공간에 할당될 수 있는 기법
+     - `단순 페이징 기법` => 페이지 고정사이즈 = 고정분할
       - fragmentation(단편화) 문제를 해결하기 위해 등장한 방법 
       - 각 프로세스를 동일한 사이즈의 page(메모리 단위)로 나누어 분할 관리하는 기법
       - 외부 단편화 발생 안함
       - 내부 단편화 발생 가능
-      - page: logical memory를 일정한 크기로 자른 것
-      - frame: physical memory를 일정한 크기로 자른 것
 
-    - `세그먼테이션` =>프로세스를 물리적 단위인 페이지가 아닌 논리적 단위인 세그먼트로 분할 = 가변분할
+    - `단순 세그먼테이션 기법` =>프로세스를 물리적 단위인 페이지가 아닌 논리적 단위인 세그먼트로 분할 = 가변분할
      -  파티션이 동적으로 생성됨 → 처음에 몇개의 고정된 분할을 만들어 두는 것 아님.
      - 각 프로세스는 자신의 크기와 일치하는 파티션에 들어가게 됨
      - 외부단편화 발생 가능
@@ -790,6 +803,7 @@ exec()를 사용하는 경우는 child 에서는 parent 와 다른 동작을 하
 [👉click](https://www.notion.so/56f34c8f18454a9182cef43df1b857cb)
    
 </details>
+
 
 
 <details>
@@ -818,6 +832,83 @@ exec()를 사용하는 경우는 child 에서는 parent 와 다른 동작을 하
    
 </details>
 
+***
+
+<details>
+   <summary><span style="border-bottom:0.05em solid"><strong>가상 메모리(Virtual Memory)란?</strong></span></summary>
+   
+- `등장배경` => 물리메모리 크기를 신경쓰고싶지 않은 프로세스
+ - 컴퓨터마다 물리메모리의 크기가 다름
+   -운영체제가 물리메모리 크기에만 의존한다면?
+     - 2GB메모리에서 동작하는 프로그램 동작 안하거나 = 프로그램을 실행할때 불필요하게 전체의 프로그램이 메모리에 올라와 있어야 하는게 아니라는 것
+     - 메모리에 맞는 응용 프로그램만 개발해야함 = 프로그램의 용량이 커지는 것에 비해 메모리 용량을 크게 한다는 것은 많은 어려움
+     - **물리메모리의 크기와 상관없이 프로세스에 커다린 메모리 공간=가상공간을 제공해서 프로세스는 물리 메모리크기따위 신경쓰지않고 메모리 마음대로 사용**
+     - 사용자는, 메모리로서 실제 존재하지는 않지만 메모리로써의 역할을 하는 가상의 메모리를 갖는것
+     - but, 가상메모리에 수용된 프로그램이 실행될 때는 실제 메모리를 필요로 하게 되는 것
+   
+- `가상메모리는 어떻게 이론적으로 크기가 무한대지?` => 부족한 부분 스왑영역으로 보충해서
+   - 메모리 관리자가 물리메모리에서 부족한 부분을 스왑영역(하드디스크에 존재하지만  MMU 가 관리하는 메모리 일부)으로 보충
+   - 모든 프로세스는 물리 메모리와 별개로 자신이 메모리에 어느 위치에 있는지 상관없이 0번지부터 시작하는 연속된 메모리 공간을 가짐
+   
+- 가상메모리에 있는 프로그램이 실행될때 어떻게 실제 메모리로 옮겨지는가?
+   - 가상메모리에 있던 프로그램이 실제로 실행될떄는 물리 메모리가 필요
+   - `매핑`: 가상메모리에 있는 프로그램을 실제 메모리로 옮겨주는 것 =? 메모리 관리자 역할
+   - `매핑 테이블`: 가상주소가 물리메모리의 어느 위치에 있는지 알 수 있도록 정리한 표 
+     - 페이징기법에선 페이지 매핑 테이블, 세그먼테이션기법에선 세그먼테이션 매핑 테이블 
+     - 프로세스마다 매핑 테이블 하나씩 있음 / 빠른 접근 필요->메모리의 운영체제 영역 적재
+   
+   
+</details>
+
+<details>
+   <summary><span style="border-bottom:0.05em solid"><strong>가상 메모리에서의 배치정책?</strong></span></summary>
+
+ - `페이징 기법`
+    - 고정분할 방식을 이용한 가상 메모리 관리 기법으로, 물리메모리를 같은 크기로 나누어 사용
+    - 단순 페이징과 비교해 프로세스 페이지 전부를 로드시킬 필요X
+    - 고정분할이니까 외부 단편화 X
+    - `페이지` : 가상주소의 분할된 각 영역을 부르는 이름
+    - `프레임` : 물리주소의 분할된 각 영역을 부르는 이름
+   
+ - `세그먼테이션 기법`
+    - 가변분할 방식을 이용한 가상 메모리 관리 기법으로, 물리메모리를 프로세스 크기에 따라 가변적으로 나누어 사용
+    - 단순 세그먼테이션과 비교해 필요하지 않은 세그먼트를 전부 로드시킬 필요X
+    - 가변분할이니까 내부 단편화 X
+   
+</details>
+
+<details>
+   <summary><span style="border-bottom:0.05em solid"><strong>가상 메모리를 사용할 시 장단점은?</strong></span></summary>
+
+- `장점`
+   - 실제 메모리(RAM)크기 보다 더 큰 공간을 사용할 수 있음
+   - 프로세스는 물리 메모리 주소 공간을 알 필요가 없어짐
+   
+- `단점`
+   - 전반적인 속도가 느려질 수 있다: 물리메모리로 바로 올라가서 실행되는 것보다 속도가 느릴 수 있다
+   
+</details>
+
+
+### 3️⃣재배치 정책<a name = "outline"></a>
+
+<details>
+   <summary><span style="border-bottom:0.05em solid"><strong>페이지교체?</strong></span></summary>
+
+- `페이지 부재`
+   - 프로세스가 페이지 요청했는데 메모리에 없는 상황
+   
+- `재배치 정책`
+   - 프로세스가 페이지 요청->페이지 부재->엥 메모리 꽉참->어떤 페이지 스왑영역으로 보낼지 결정하자 = 재배치 정책
+ 
+ - `페이지 교체 알고리즘`
+   - 스왑영역으로 보낼 페이지 결정하는 알고리즘
+   - 메모리에서 앞으로 사용할 가능성이 적은 페이지를 대상 페이지로 선정해서 페이지 부재 줄이고 시스템 성능 향상하자
+    
+ 
+</details>
+
+
 <details>
    <summary><span style="border-bottom:0.05em solid"><strong>🦑페이지 교체 알고리즘 종류에는 어떤 것들이 있나요?</strong></span></summary>
    
@@ -833,34 +924,33 @@ exec()를 사용하는 경우는 child 에서는 parent 와 다른 동작을 하
 
 </details>
 
+
 ***
 
 <details>
-   <summary><span style="border-bottom:0.05em solid"><strong>가상 메모리(Virtual Memory)란?</strong></span></summary>
+   <summary><span style="border-bottom:0.05em solid"><strong>메모리 구조의 순서가 어떻게 되는가? CPU에서 가까운 순으로 말해보시오.</strong></span></summary>
 <hr>
-   <p>메모리에 로드된, 실행중인 프로세스가 메모리가 아닌 가상의 공간을 참조해 마치 커다란 물리 메모리를 갖는 것처럼 사용할 수 있게 해주는 기법</p>
-   <p>프로그램에 실제 메모리 주소가 아닌 가상 메모리 주소를 할당하는 방법</p>
-
-<hr>
-</details>
-
-
-<details>
-   <summary><span style="border-bottom:0.05em solid"><strong>Demand Paging이란?</strong></span></summary>
-<hr>
-   <p>현재 필요한 부분만 메모리에 적재하는 것</p>
-   <p>페이지가 올라와있는지 구별시에는 유효-무효 비트를 사용함</p>
-
-<hr>
-</details>
-
-
-<details>
-   <summary><span style="border-bottom:0.05em solid"><strong>가상 메모리를 사용할 시 장단점은?</strong></span></summary>
-<hr>
+   <p>레지스터, 캐시, 주기억장치, 보조기억장치 순서입니다.</p>
+   <p>CPU는 프로그램 실행 시 먼저 레지스터에 필요한 데이터가 있는지 확인합니다.</p>
+   <p>레지스터에 필요한 데이터가 존재하지 않는다면 캐시를, 캐시에도 없다면 주기억장치를, 주기억장치에도 없다면 보조기억장치를 확인하며 필요한 데이터를 적재합니다.</p>
+   <p>https://popcorntree.tistory.com/68</a></p>
+   <figure/></a></figure>
+   <ul>
+      <li><strong>레지스터</strong> : CPU 내에 존재하는 메모리로 빠르고 작다.</li>
+   </ul>
+   <ul>
+      <li><strong>캐시</strong> : CPU와 주기억장치 사이에서 중간 저장소 역할을 함. Locality 특성 이용</li>
+   </ul>
+   <ul>
+      <li><strong>주기억장치</strong> : 현재 수행되는 프로그램과 데이터 저장</li>
+   </ul>
+   <ul>
+      <li><strong>보조기억장치</strong> : 용량이 크나 느리다.</li>
+   </ul>
 
 <hr>
 </details>
+
 
 
 <details>
