@@ -836,7 +836,9 @@ exec()를 사용하는 경우는 child 에서는 parent 와 다른 동작을 하
 
 <details>
    <summary><span style="border-bottom:0.05em solid"><strong>가상 메모리(Virtual Memory)란?</strong></span></summary>
-   
+ 
+   ![KakaoTalk_20220830_163319464](https://user-images.githubusercontent.com/89257243/187377710-b750e10d-af5d-4891-85e0-f7f17bba119d.jpg)
+
 - `등장배경` => 물리메모리 크기를 신경쓰고싶지 않은 프로세스
  - 컴퓨터마다 물리메모리의 크기가 다름
    -운영체제가 물리메모리 크기에만 의존한다면?
@@ -911,10 +913,7 @@ exec()를 사용하는 경우는 child 에서는 parent 와 다른 동작을 하
 
 <details>
    <summary><span style="border-bottom:0.05em solid"><strong>🦑페이지 교체 알고리즘 종류에는 어떤 것들이 있나요?</strong></span></summary>
-   
-![KakaoTalk_20220830_113843986](https://user-images.githubusercontent.com/89257243/187343651-6919fbe7-b421-47cc-ab02-e2d4c3ee4903.jpg)
 
-   
 - OPT : 최적 교체. 앞으로 가장 오랫동안 사용하지 않을 페이지 교체 (실현 가능성 희박)
 - FIFO : 메모리가 할당된 순서대로 페이지를 교체
 - LRU : 최근에 가장 오랫동안 사용하지 않은 페이지를 교체
