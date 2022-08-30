@@ -333,6 +333,9 @@
 
 <details>
    <summary><span style="border-bottom:0.05em solid"><strong>www.google.com에 접속할때 일어나는 일</strong></span></summary>
+   
+   https://hongjuzzang.github.io/web/web_browser2/
+   
 <hr>
    <figure/></a></figure>
    <ol>
