@@ -441,66 +441,40 @@
 <h2>웹</h2>
 
 <details>
-   <summary><span style="border-bottom:0.05em solid"><strong>www.google.com에 접속할때 일어나는 일</strong></span></summary>
+   <summary><span style="border-bottom:0.05em solid"><strong>www.naver.com에 접속할때 일어나는 일</strong></span></summary>
    
    https://hongjuzzang.github.io/web/web_browser2/
    
-<hr>
-   <figure/></a></figure>
-   <ol>
-      <li>www.google.com을 브라우저 주소창에 친다.</li>
-   </ol>
-   <ol>
-      <li>
-         브라우저는 캐싱된 DNS 기록을 통해 www.google.com에 대응되는 IP 주소가 있는지 확인한다.
-         <ul>
-            <li>브라우저 캐시 확인</li>
-         </ul>
-         <ul>
-            <li>OS 캐시 확인</li>
-         </ul>
-         <ul>
-            <li>라우터 캐시 확인</li>
-         </ul>
-         <ul>
-            <li>ISP 캐시 확인</li>
-         </ul>
-      </li>
-   </ol>
-   <ol>
-      <li>요청한 URL이 캐시에 없으면 ISP의 DNS 서버가 www.google.com을 호스팅하고 있는 서버의 IP 주소를 찾기 위해 DNS query를 날림</li>
-   </ol>
-   <ol>
-      <li>브라우저가 IP 주소를 받으면 서버와 TCP 연결을 한다. (3 way handshaking)</li>
-   </ol>
-   <ol>
-      <li>TCP 연결이 완료되면 브라우저가 웹 서버에 HTTP 요청을 한다. GET 요청을 통해 www.google.com의 웹페이지를 요구한다.</li>
-   </ol>
-   <ol>
-      <li>서버가 요청을 처리하고 response를 생성한다.</li>
-   </ol>
-   <ol>
-      <li>서버가 HTTP response를 보낸다.</li>
-   </ol>
-   <ol>
-      <li>브라우저가 HTML content를 보여준다.</li>
-   </ol>
-   <figure id="5f8023b0-d80e-4762-bb2e-84dc5770fd6c">
-      <a href="https://devjin-blog.com/what-happen-browser-search/" class="bookmark source">
-         <div class="bookmark-info">
-            <div class="bookmark-text">
-               <div class="bookmark-title">[번역] Browser에 www.google.com을 검색하면 어떤 일이 일어날까?</div>
-               <div class="bookmark-description">개발자라면 인터넷이 어떻게 작동을 하고 정보들이 어떻게 주고 받아지는지 기본적으로 이해하는 것이 필요하다고 생각해서 공부할 겸 미디움 블로그를 번역했다. ** 내용 조금 수정 및 추가한 부분 있음 검색할 것이 있어서 www.google.com 에 접속을 하려고 할 때 웹페이지가 어떻게 불러와지는지 순서대로 설명을 하려고 한다. DNS(Doman Name System)은 URL들의 이름과 IP주소를 저장하고 있는 데이터베이스이다.</div>
-            </div>
-            <div class="bookmark-href"><img src="data:;base64,iVBORw0KGgo=" class="icon bookmark-icon"/>https://devjin-blog.com/what-happen-browser-search/</div>
-         </div>
-         <img src="https://devjin-blog.com/static/thumbnail-5bbdfc7ac4f8769dd921dd2a7dafc151.jpg" class="bookmark-image"/>
-      </a>
-   </figure>
+```kotlin
+1. 브라우저 주소창에 www.naver.com을 입력한다  
+2. DNS를 통해 IP주소를 획득한다  
+3. 획득한 IP주소에 있는 서버와 TCP 3 Way Handshake를 진행한다  
+4. 통신을 맺은 서버에 Http Request를 한다  
+5. 서버에서 보낸 Http Response를 통해 HTML 파일을 받는다  
+6. 브라우저가 HTML을 분석해서 화면으로 그린다  
+```
+- `브라우저 주소창에 www.naver.com을 입력한다`     
+   - 브라우저: 서버-클라이언트가 쌍방향으로 통신하고 HTML 문서나 파일을 출력하는 그래픽 사용자 인터페이스 기반의 응용 소프트웨어
+   - 브라우저의 주요 기능은 사용자가 선택한 자원을 서버에 요청하고 브라우저에 표시하는 것
+   - 주요 웹 브라우저로는 구글의 크롬, 사파리 등이 있습니다
+   
+- `4개의 DNS에 캐싱된 IP주소 있는지 확인`
+  - `로컬 DNS 서버`에 해당 url이 등록되어 있는 지 확인 후 있으면=캐싱되어있으면 바로 IP주소를 알려준다.
+  - `Root DNS 서버`: 만약 IP 주소를 못찾을 시 루트 DNS 서버에게 문의 후 루트 DNS 서버는 최상위 도메인이 .com인 것을 확인 후 ".com"이 등록된 네임 서버의 IP Address를 전달한다. 즉 com 도메인을 관리하는 DNS 서버에 문의해보라고 로컬 DNS 서버에게 .com DNS 서버의 IP주소를 알려주는 것이다.
+  - `com DNS 서버`: 로컬 DNS 서버는 이제 com DNS 서버에게 해당 url(www.naver.com) 을 문의한다. 역시나 com DNS 서버에는 해당 url(www.naver.com)이 없으므로 "naver.com"을 관리하는 DNS 서버에게 문의하도록 로컬 DNS 서버에게 naver.com DNS 서버의 IP주소를 알려준다.
+  - `naver.com DNS 서버`: 로컬 DNS 서버는 이제 naver.com DNS 서버에게 해당 url(www.naver.com)을 문의한다. "naver.com 도메인을 관리하는 DNS 서버"에는 "www.naver.com"에 대한 IP 주소가 있으므로 로컬 DNS 서버에게 해당 IP를 알려주는 것이다.
+  - 이와 같이 로컬 DNS 서버가 열 DNS 서버를 차례대로(Local DNS 서버 -> Root DNS 서버 -> com DNS 서버 -> naver.com DNS 서버) 물어보며 답을 찾는 과정을 Recursive Query라고 부른다.
 
-<hr>
+- `획득한 IP주소에 있는 서버와 TCP 3 Way Handshake를 진행한다`  
+- `통신을 맺은 서버에 request를 보낸다`
+   - HTTP 프로토콜을 사용하여 request 메시지 생성 
+   - 클라이언트는 GET 요청을 통해 서버에게 www.google.com 웹페이지를 요구한다.
+- `서버가 HTTP response를 보낸다.`
+   - HTTP 프로토콜을 사용하여 HTTP 응답 메시지를 생성
+   - TCP 프로토콜을 사용하여 인터넷을 거쳐 원래 컴퓨터로 전송된다.
+- `도착한 HTTP 응답 메시지를 화면으로 그린다` 
+   - 브라우저의 렌더링 엔진의 역할은 브라우저 구조 중 요청한 콘텐츠를 표시. 예를 들어 HTML을 요청하면 HTML과 CSS를 파싱하여 화면에 표시함
 </details>
-
 
 <details>
    <summary><span style="border-bottom:0.05em solid"><strong>웹브라우저에서 서버로 요청했을 때, 흐름을 설명해주세요.</strong></span></summary>
