@@ -1,105 +1,122 @@
+
 # Network
 
 <h2>전산 기본</h2>
 
 <details>
-   <summary><span style="border-bottom:0.05em solid"><strong>OSI 7계층에 대해서 설명해주세요.</strong></span></summary>
-<hr>
-   <p>나눈 이유 : 통신이 일어나는 과정을 단계별로 알수있고, 문제가 생기면 그 단계만 수정하면 됨</p>
-   <ul>
-      <li><strong>물리 </strong>: 데이터 전송 ex) 리피터, 케이블, 허브</li>
-   </ul>
-   <ul>
-      <li><strong>데이터링크 </strong>: 물리 계층으로 송수신되는 정보 관리, Mac 주소로 통신 ex) 브릿지, 스위치</li>
-   </ul>
-   <ul>
-      <li><strong>네트워크 </strong>: 데이터를 목적지까지 전달, 라우터로 경로를 선택해 IP 지정, 경로에 따라 패킷 전달 ex) 라우터, IP</li>
-   </ul>
-   <ul>
-      <li><strong>전송 </strong>: 통신을 활성화 ex) TCP, UDP</li>
-   </ul>
-   <ul>
-      <li><strong>세션 </strong>: 데이터가 통신하기 위한 논리적 연결 담당 ex) API, Socket</li>
-   </ul>
-   <ul>
-      <li><strong>표현 </strong>: 데이터 표현에 대한 독립성을 제공하고 암호화 ex) JPEG, MPEG</li>
-   </ul>
-   <ul>
-      <li><strong>응용 </strong>: 최종 목적지, 응용프로그램과 연관하여 서비스 수행 ex) HTTP, FTP, DNS</li>
-   </ul>
-   <figure/></a></figure>
+   <summary><span style="border-bottom:0.05em solid"><strong>TCP/IP</strong></span></summary>
+   
+- TCP/IP는 **패킷 통신**을 위한 통신 규약이다.
+- **현재의 인터넷에서 컴퓨터들이 서로 정보를 주고받는데 쓰이는 프로토콜의 모음**
+- TCP/IP는 **인터넷 프로토콜인 IP**와 **전송 조절 프로토콜인 TCP**로 이루어져 있다.
+- SMTP, HTTP, HTTPS, FPS 등 우리에게 친숙한 인터넷 서비스 대부분이 TCP/IP 기반으로 이루어져 있다.
+- IP는 복잡한 네트워크 망에서 빠른 길을 찾는 역할을 한다.
+  - **데이터의 순서, 손실에 대해 고려하지 않는다**
+  - 단순 데이터 전달만을 담당.
+  - **IP는 신뢰도가 낮다**
 
-<hr>
-</details>
+- TCP는 데이터를 잘게 잘라 보내면서, 패킷에 **일련의 번호를 붙여 순서를 재조합**하고 **손실을 찾아내 교정**한다.
+  - **TCP는 복잡한 만큼 신뢰도가 높다**
 
+**(데이터의 정확성 확인은 TCP가, 패킷을 목적지까지의 전송은 IP가 담당**
+   
+</details>   
 
 <details>
-   <summary><span style="border-bottom:0.05em solid"><strong>TCP/IP 4계층에 대해서 설명해주세요.</strong></span></summary>
-<hr>
-   <p>1계층 네트워크 액세스 : 물리+데이터링크, MAC주소 사용</p>
-   <p>2계층 인터넷 : 네트워크, 통신 노드간의 IP패킷을 전송하는 기능과 라우팅 기능 담당</p>
-   <p>3계층 전송 : 전송, 통신 노드간의 연결 제어 및 신뢰성 있는 데이터 전송 담당</p>
-   <p>4계층 응용 : 세션+표현+응용, 응용 프로그램 구현</p>
+   <summary><span style="border-bottom:0.05em solid"><strong>OSI 7계층</strong></span></summary>
+   
+- `정의` : 네트워크에서 통신이 일어나는 과정을 7단계로 나눈 것
+- `나눈 이유`
+     - 한눈에 보기 쉽고 이해하기 쉽다
+     - 네트워크에 이상이 생기면 어디에서 생긴 문제인지 파악하고 해당 계층만 고치면 됨
+     - OSI 7계층 생기기 이전엔 표준이 없으니까 데이터 전송이 어려웠음
+      
+<img width="500" alt="01" src="https://user-images.githubusercontent.com/84564695/187700599-9ace277b-44ad-427e-9a65-01e1fe748fd4.png">
+   
+- `7-애플리케이션 계층` => 메세지
+      - 응용 프로그램과 연관하여 사용자가 이용할 수 있는 통신서비스 형태로 만든다
+      - HTTP, FTP프로토콜
 
-<hr>
+- `6-프레젠테이션 계층` => 메세지
+      - 어플리케이션 계층(7계층)이 **다양한 데이터 타입을 다루는 부담을 덜어준다.**
+      - **인코딩/ 암호화** 등을 담당
+      - ex) 해당 데이터가 TEXT인지 그림인지 GIF인지 등을 구분
+   
+ - `5-세션 계층` => 메세지
+      - 데이터가 통신하기 위한 논리적인 연결을 말한다. 통신을 하기위한 대문이라고 보면 된다.
+      - 세션 설정, 유지 등 TCP/IP 세션을 만들고 없애는 책임
+    
+ - `4-트랜스포트 계층` => TCP(세그멘테이션) / UDP(데이터그램)
+      - 신뢰성 있는 데이터를 주고받을 수 있게 함 
+      - 포트 번호를 통해 애플리케이션 프로토콜 식별
+      - TCP / UDP 프로토콜 
+      
+ - `3-네트워크 계층` => 통신 단위 **패킷**
+      - **IP주소**를 부여
+      - 목적지까지 가기위한 경로를 설정하는 역할 (길을 찾는 역할)→ **Routing(라우팅)**
+      - 라우터의 입력 포트에서 출력 포트로 패킷을 이동시키는 역할 → **Forwarding(포워딩)**
+      - 대표적인 장비로는 **Router**: IP헤더에 기록된 목적지의 IP주소를 보고 다음 전송처 결정
+   
+- `2-데이터링크 계층` => 통신 단위 **프레임**
+      - 인접한 네트워크 노드들끼리 데이터를 전송하는 기능과 절차 제공
+      - 네트워크 인터페이스 카드에 적혀있는 MAC주소를 가지고 통신한다
+      - 물리계층에서 생길 수 있는 오류 감지하고 수정
+      - 이더넷(Ethernet)
+  
+ - `1-물리 계층` => 통신 단위 **비트**
+      - 데이터<->신호
+      - 변환방법은 통신매체에 의존하기 때문에 프로토콜이 정해져 있지 않다
+      - 케이블, 허브 장비 사용
+ 
+   
+- `TCP / IP 계층과 OSI 7 계층의 차이`
+  - TCP / IP 계층이 OSI 7계층 보다 먼저 개발되었음
+  - OSI 7계층은 장비, 개발, 통신, 설계를 위한 표준으로 사용되지만, **실제 통신에서는 TCP / IP**를 사용한다
+  - TCP / IP는 **지속적인 표준화로 신뢰성이 높지만**, OSI 7계층은 적은 구현으로 인해 신뢰성이 다소 낮다  
+   
 </details>
+
 
 
 <details>
    <summary><span style="border-bottom:0.05em solid"><strong>DNS가 무엇인가요?</strong></span></summary>
-<hr>
-   <p>IP주소를 문자로 표현한 주소로 바꾸는 시스템 혹은 서버</p>
 
-<hr>
+ - **도메인이나 호스트 이름을 숫자로 된 ip 주소로 바꾸어 주는 장비**
+
+        ex) [naver.com](http://naver.com) 은 도메인이고 dns에서는 이것을 34.32.222와 같은 ip주소로 바꿔준다.
+
+- DNS는 **분산계층 데이터 베이스**이다
+
+     → DNS를 여러 서버로 나누고, 이들을 계층 형태로 구성해 전세계로 분산시켜두었다.  
+   
+- DNS 서버에서  IP 주소를 찾는 과정
+   
+   <img width="500" alt="01" src="https://user-images.githubusercontent.com/84564695/187702819-41df8a9e-d53b-4cb0-b539-217aa7f49884.png">
+
+
+(1) 브라우저가 설치된 컴퓨터는 www.naver.com IP를 알아내기 위해서 ***Local DNS 서버*** naver.com의 IP를 문의 
+
+(2) ***Local DNS 서버***가 IP를 알고 있다면 즉시 IP 주소 줌 하지만 IP 주소를 모르면 ***Root DNS서버***에게 문의
+
+(3) ***Root DNS서버***는 도메인의 최상위 도메인 .com인 것을 보고 ***.com 관리하는 네임서버***의 IP를 전달 =  "나는 IP 주소를 가지고 있지 않지만, .com 네임서버에게 물어보면 도와줄꺼야" 
+
+(4) ***Local DNS 서버*** 는 ***.com 관리하는 네임서버***을 관리하는 네임서버에게 문의한다. 
+
+(5) ***.com 관리하는 네임서버***는 ***naver 네임서버*** IP 주소를 알려준다. 
+
+(6) ***Local DNS 서버***는 ***naver 네임서버***에게 문의하고, 
+
+(7) ***www 의 네임서버***를 알려준다. 
+
+(8) 최종적으로 ***www 네임서버***에게 문의 후 
+
+(9) www.naver.com의 IP 주소를 얻는다. 
+
+(10) ***Local DNS 서버***는 이 IP 주소를 클라이언트에게 알려준다. 클라이언트 컴퓨터는 이 IP를 브라우저에게 알려주면 브라우저는 이 IP에 해당하는 컴퓨터에 접속 할 수 있게 된다.
+   
 </details>
 
 
-<details>
-   <summary><span style="border-bottom:0.05em solid"><strong>www.naver.com에 접속할때 일어나는 일에 대해 설명해주세요.</strong></span></summary>
-<hr>
-   <ol>
-      <li>사용자가 브라우저에 도메인 네임(<a href="http://www.naver.xn--com%29-8040a/">www.naver.com)을</a> <strong>입력</strong>한다.</li>
-   </ol>
-   <ol>
-      <li>사용자가 입력한 URL 주소 중에서 <strong>도메인 네임(Domain Name) 부분을 DNS 서버에서 검색</strong>하고, DNS 서버에서 해당 도메인 네임에 해당하는 <strong>IP 주소를 찾아 사용자가 입력한 URL 정보와 함께 전달</strong>한다.</li>
-   </ol>
-   <ol>
-      <li>페이지 URL 정보와 전달받은 IP 주소는 <strong>HTTP 프로토콜을 사용하여 HTTP 요청 메시지를 생성</strong>하고, 이렇게 생성된 HTTP 요청 메시지는 <strong>TCP 프로토콜을 사용하여 인터넷을 거쳐 해당 IP 주소의 컴퓨터로 전송</strong>된다.</li>
-   </ol>
-   <ol>
-      <li>이렇게 도착한 HTTP 요청 메시지는 HTTP 프로토콜을 사용하여 웹 페이지 URL 정보로 변환되어 <strong>웹 페이지 URL 정보에 해당하는 데이터를 검색</strong>한다.</li>
-   </ol>
-   <ol>
-      <li>검색된 웹 페이지 데이터는 또 다시 <strong>HTTP 프로토콜을 사용하여 HTTP 응답 메시지를 생성</strong>하고 <strong>TCP 프로토콜을 사용하여 인터넷을 거쳐 원래 컴퓨터로 전송</strong>된다.</li>
-   </ol>
-   <ol>
-      <li>도착한 <strong>HTTP 응답 메시지는 HTTP 프로토콜을 사용하여 웹 페이지 데이터로 변환</strong>되어 웹 브라우저에 의해 출력되어 사용자가 볼 수 있게 된다.</li>
-   </ol>
-
-<hr>
-</details>
-
-
-<details>
-   <summary><span style="border-bottom:0.05em solid"><strong>도메인 이름으로 실제 IP를 어떻게 찾을 수 있는지 흐름을 설명해 주세요.</strong></span></summary>
-<hr>
-   <p><strong>Recursive Query를 통해 접근 : Local DNS 서버 -&gt; Root DNS 서버 -&gt; com DNS 서버 -&gt; naver.com DNS 서버</strong></p>
-   <ol>
-      <li>로컬 DNS서버에 해당 url이 등록되어있는지 확인</li>
-   </ol>
-   <ol>
-      <li>루트 DNS서버에 문의 후 최상위 도메인 .com이 등록된 네임 서버의 IP주소 전달</li>
-   </ol>
-   <ol>
-      <li>로컬 DNS서버는 com DNS 서버에 해당 url을 문의함. 로컬 DNS서버에 naver.com DNS 서버의 IP 주소 알려줌</li>
-   </ol>
-   <ol>
-      <li>naver..com에 해당 url 문의함. 로컬 DNS는 IP 주소를 받을수있음</li>
-   </ol>
-   <figure/></a></figure>
-
-<hr>
-</details>
 
 
 <details>
@@ -118,61 +135,41 @@
 
 <details>
    <summary><span style="border-bottom:0.05em solid"><strong>TCP와 UDP의 차이에 대해서 설명해 주세요.</strong></span></summary>
-<hr>
-   <p><strong>TCP</strong></p>
-   <ul>
-      <li>신뢰성 있는 데이터 전송을 지원하는 연결 지향형 프로토콜</li>
-   </ul>
-   <ul>
-      <li>흐름제어, 혼잡제어, 오류제어 지원</li>
-   </ul>
-   <ul>
-      <li>연결 설정시 3 way handshake를, 연결 해제시 4 way handshake 진행</li>
-   </ul>
-   <ul>
-      <li>UDP보다 속도가 느리다</li>
-   </ul>
-   <ul>
-      <li><strong>EX)</strong> 웹 http 통신, 이메일, 파일 전송</li>
-   </ul>
-   <p><strong>UDP</strong></p>
-   <ul>
-      <li>데이터를 데이터그램 단위로 처리하는 프로토콜</li>
-   </ul>
-   <ul>
-      <li>신뢰성 낮음</li>
-   </ul>
-   <ul>
-      <li>속도가 빠르고 부하가 적다</li>
-   </ul>
-   <ul>
-      <li><strong>EX)</strong> Real Time Protocol(RTP), Multicast, DNS</li>
-   </ul>
 
-<hr>
+- `ICMP`
+ - IP 계층에서 생긴 **오류**를 보고하는 역할
+ - 위험한 상황에 대한 경보
+ - **오류에 대한 해결은 못함**  - IP 프로토콜과 함께 쓰임
+   
+- `TCP와 UDP가 등장하게 된 배경은?`
+  - IP 프로토콜로 송신자를 찾아갈 수 있지만, 그 안에서 여러 프로세스가 동작하고 있을 경우 어떤 프로세스에게 메세지를 전달해야 할지 알지 못하기 때문
+  - IP 계층에서 오류가 발생했을 때, 해결이 필요함 → IP 계층의 ICMP 프로토콜은 **오류 보고**만 가능, **해결은 불가능**
+   
+   <img width="500" alt="01" src="https://user-images.githubusercontent.com/84564695/187839359-a567046b-540d-4099-ad25-954b1e8c35a5.png">
+   
+- 신뢰성: 순서 / 재전송 / 흐름제어, 혼잡제어
+- 속도
+- 데이터 스트림(경계X) / 데이터그램(경계O)
+   
 </details>
 
 
 <details>
-   <summary><span style="border-bottom:0.05em solid"><strong>TCP 헤더에 대해서 설명해 주세요.</strong></span></summary>
-<hr>
+   <summary><span style="border-bottom:0.05em solid"><strong>🦑TCP 헤더에 대해서 설명해 주세요.</strong></span></summary>
 
-<hr>
+   https://www.notion.so/TCP-UDP-676ca61cb16f4b7796d4ff1b7f780eb1
+   
 </details>
 
 
 <details>
    <summary><span style="border-bottom:0.05em solid"><strong>MTU가 무엇인가요?</strong></span></summary>
-<hr>
-   <p><strong>Maximum Transmission Unit</strong></p>
-   <ul>
-      <li>패킷이나 프레임의 최대 크기</li>
-   </ul>
-   <ul>
-      <li>데이터의 크기가 크다면 단편화해야함</li>
-   </ul>
 
-<hr>
+- `MTU(maximum transmission unit)`:데이터 링크 계층 프레임이 전달할 수 있는 최대 데이터 양
+   - 모든 데이터 링크계층 프로토콜이 같은 크기의 데이터를 전달할 수 없다 프로토콜마다 다름  
+- `단편화`: MTU 보다 큰 데이터그램은 전송이 불가능 하기 때문에 MTU 보다 작은 크기로 만들어 주는 과정
+
+
 </details>
 
 
@@ -198,15 +195,7 @@
    <ol>
       <li><strong><mark class="highlight-yellow_background">클라이언트</mark></strong> → <strong><mark class="highlight-purple_background">서버</mark></strong> : <mark class="highlight-blue">확인 응답으로 </mark><mark class="highlight-blue"><strong>ACK 패킷</strong></mark> 보냄</li>
    </ol>
-   <ul>
-      <li>
-         <details>
-            <summary>사진</summary>
-<hr>
-            <figure/></a></figure>
-         </details>
-      </li>
-   </ul>
+
    <h3>4 way handshake</h3>
    <ul>
       <li>연결 설정 해제함</li>
@@ -215,7 +204,7 @@
       <li><strong><mark class="highlight-yellow_background">클라이언트</mark></strong>→ <strong><mark class="highlight-purple_background">서버</mark></strong> : <mark class="highlight-red">연결 해제하겠다는 </mark><strong><mark class="highlight-red">FIN 패킷</mark></strong> 보냄</li>
    </ol>
    <ol>
-      <li><strong><mark class="highlight-purple_background">서버</mark></strong> → <strong><mark class="highlight-yellow_background">클라이언트</mark></strong> : <mark class="highlight-orange">응답으로</mark><strong><mark class="highlight-orange"> ACK 패킷</mark></strong> 보냄</li>
+      <li><strong><mark class="highlight-purple_background">서버</mark></strong> → <strong><mark class="highlight-yellow_background">클라이언트</mark></strong> : <mark class="highlight-orange">응답으로</mark><strong><mark class="highlight-orange"> ACK 패킷</mark></strong> 보냄(서버는 본인이 전송할 데이터 남았으면 마저 다 전송 필요)</li>
    </ol>
    <ol>
       <li><strong><mark class="highlight-purple_background">서버</mark></strong> → <strong><mark class="highlight-yellow_background">클라이언트</mark></strong>: 처리해야할 모든 통신 끝내고 <mark class="highlight-teal">연결 종료하겠다는 </mark><strong><mark class="highlight-teal">FIN 패킷</mark></strong> 보냄</li>
@@ -223,17 +212,16 @@
    <ol>
       <li><strong><mark class="highlight-yellow_background">클라이언트</mark></strong>→ <strong><mark class="highlight-purple_background">서버</mark></strong> : <mark class="highlight-blue">확인 응답으로 </mark><strong><mark class="highlight-blue">ACK 패킷</mark></strong> 보냄</li>
    </ol>
-   <ul>
-      <li>
-         <details>
-            <summary>사진</summary>
-<hr>
-            <figure/></a></figure>
-         </details>
-      </li>
-   </ul>
+ 
 
 <hr>
+
+- TCP의 연결 설정 과정(3단계)과 연결 종료 과정(4단계)이 단계가 차이나는 이유?
+ - 클라이언트가 데이터 전송을 마쳤다고 하더라도 서버는 아직 보낼 데이터가 남아있을 수 있기 때문에,곧바로 클라이언트에게 FIN 메세지를 보내지 않고,  FIN에 대한 ACK만 먼저 보내고, 남은 데이터를 모두 전송하는 단계 필요
+
+- **만약 Server에서 FIN 플래그를 전송하기 전에 전송한 패킷이 Routing 지연이나 패킷 유실로 인한 재전송 등으로 인해 FIN 패킷보다 늦게 도착하는 상황이 발생하면 어떻게 될까?**
+  - 해당 패킷이 도착하기 전에 연결이 close된 상태라면, 해당 패킷은 유실되고 drop 될 것이다. 이를 방지하기 위해, client에서는 FIN응답을 받은 이후, 바로 연결을 close하지 않고 일정시간 동안 time-wait 상태로 패킷을 기다리며 세션을 유지하고 있는다.
+
 </details>
 
 <p></p>
@@ -477,6 +465,49 @@
 </details>
 
 <details>
+   <summary><span style="border-bottom:0.05em solid"><strong>REST / REST원칙 / REST API에 대해서 설명해 주세요.</strong></span></summary>
+
+- `REST= Representational State Transfer`
+  -  HTTP를 잘 활용하기 위한 원칙이자 네트워크 아키텍쳐 스타일(청사진이  
+
+- `REST원칙` = 행위+자원
+   - URI로 자원을 표현하는 데에 집중하고, 자원의 상태(행위)에 대한 정의는 HTTP METHOD
+
+   
+-  `RESTful API`   
+   - REST원칙을 잘 지킨 API
+      - CRUD 기능을 POST로만 하는 경우
+      - GET /members/delete/1 -> DELETE /members/1
+        - URI는 자원을 표현하는데 중점을 두어야 한다. delete와 같은 행위에 대한 표현이 들어가서는 안된다.
+   
+</details>
+
+
+<details>
+   <summary><span style="border-bottom:0.05em solid"><strong>API Gateway란 무엇인가요?</strong></span></summary>
+
+ - 서비스로 전달되는 모든 api요청의 관문역할
+ - 서버 시스템의 아키텍쳐를 내부로 숨기고 외부 요청에 대한 응답만을 적절한 형태로 전달
+   - 클라이언트는 서버 내부 구조 상관없이 서로 약속된 형태의 api요청만 서버로 보내면됨
+   
+ - 장점
+   - 클라이언트의 요청을 일괄적으로 처리
+   - 시스템 내부에 아키텍쳐를 숨길 수 있음
+   - 시스템상에 오고가는 요청과 응답에 대해 모니터링 가능
+   
+   
+</details>
+
+
+<details>
+   <summary><span style="border-bottom:0.05em solid"><strong>🦑API Gateway가 다운되면 모든 API를 사용 못할지도 모르는데, 어떤 방안을 마련해야 할까요?</strong></span></summary>
+<hr>
+
+<hr>
+</details>   
+   
+   
+<details>
    <summary><span style="border-bottom:0.05em solid"><strong>웹브라우저에서 서버로 요청했을 때, 흐름을 설명해주세요.</strong></span></summary>
 <hr>
    <p>웹 브라우저가 URL해석-&gt;URL이 문법맞으면 Punycode encoding을 url의 host부분에 적용-&gt; HSTS (HTTP Strict Transport Security 목록 로드해서 체크 -&gt;DNS 확인-&gt; ARP로 IP/MAC 확인 -&gt;TCP 통신을 통해 Socket을 열고 .HTTP 프로토콜로 요청 -&gt; HTTP 서버가 응답 -&gt;  웹 브라우저가 그린다.</p>
@@ -498,7 +529,7 @@
 <hr>
    <p><strong>웹 서버</strong></p>
    <ul>
-      <li>항상 동일한 데이터를 주는 정적 콘텐츠를 제공</li>
+      <li>사용자가 웹브라우저에 어떤 페이지 요청하면 정적컨텐츠(단순HTML문서,CSS,javascript) 제공하는 서버</li>
    </ul>
    <ul>
       <li>동적 콘텐츠 제공을 위해 WAS에 클라이언트의 요청을 보내고 결과를 전달</li>
@@ -521,39 +552,7 @@
 </details>
 
 
-<details>
-   <summary><span style="border-bottom:0.05em solid"><strong>REST API에 대해서 설명해 주세요.</strong></span></summary>
-<hr>
-   <p>HTTP를 통해 자원을 주고 받을 때 HTTP URI를 통해 자원을 명시하고 HTTP Method를 통해 자원의 CRUD를 수행하는 것을 말합니다.</p>
 
-<hr>
-</details>
-
-
-<details>
-   <summary><span style="border-bottom:0.05em solid"><strong>REST ful</strong></span></summary>
-<hr>
-   <p>REST의 원리를 따르는 시스템을 말합니다. </p>
-   <p>RESTful하지 못한 경우로는 (1) CRUD 기능을 POST로만 처리하는 경우나 (2) URI에 resource, id 외의 정보가 들어가는 경우입니다. </p>
-
-<hr>
-</details>
-
-
-<details>
-   <summary><span style="border-bottom:0.05em solid"><strong>API Gateway란 무엇인가요?</strong></span></summary>
-<hr>
-
-<hr>
-</details>
-
-
-<details>
-   <summary><span style="border-bottom:0.05em solid"><strong>API Gateway가 다운되면 모든 API를 사용 못할지도 모르는데, 어떤 방안을 마련해야 할까요?</strong></span></summary>
-<hr>
-
-<hr>
-</details>
 
 <p></p>
 <h2>기타</h2>
