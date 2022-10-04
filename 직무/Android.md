@@ -66,7 +66,8 @@
   - Android 앱의 필수적인 기본 구성 요소(컴포넌트) 중 하나입니다 
   - Activity는 사용자와 상호작용하기 위한 진입점입니다. 
   - 사용자 인터페이스(UI) 화면을 구성하는 컴포넌트입니다 
-  - 대부분의 앱은 한 개의 Activity가 아닌 여러 Activity로 이루어져 있습니다.  
+  - 대부분의 앱은 한 개의 Activity가 아닌 여러 Activity로 이루어져 있습니다.
+  - 각 Activity는 또 다른 Activity를 시작할 수 있습니다
 - `구조`  
   - Activity는 ContextThemewrapper클래스를 상속, 이외 여러 인터페이스를 구현하고 있음
   - 실제 Activity컴포넌트를 사용하기 위해선  Android의 다양한 API Level을 지원하기 위해 만들어진 Activity class의 하위 클래스인 AppCompatActivity를 상속받은 class를 생성
@@ -87,17 +88,14 @@
   
 - 💡Activity간 정보를 교환하려면 어떻게 해야하나요?
 - 💡Activity 수명주기
-- 💡투명한 Activity b가 Activity a 위에 띄워질 시
-- 💡finish 버튼 눌러서 Activity b 종료
-- 💡액티비티에서 뒤로가기 버튼을 누르면?
-- 💡투명한 Activity b가 Activity a 위에 띄워질 시
-- 💡액티비티에서 홈 버튼을 눌렀을 때, 콜백 함수?
-- 💡현재 A 액티비티가 포그라운드 상태. 이 때 B액티비티로 전환 되면 발생하는 lifecycle Callback 함수는?
-- 💡B 액티비티에서 finish() 함수를 호출하게 되면 발생하는 Lifecycle 순서는?
-- 💡Activity위에 dialog가 띄워질때 Activity수명주기는?
-- 💡Activity 3가지 상태
-- 💡Launch Mode 4가지 ?  
-- 💡onSaveInstanceState
+- 💡투명한 Activity b가 Activity a 위에 띄워질 시: onPause
+- 💡finish 버튼 눌러서 Activity b 종료: onDestroy
+- 💡액티비티에서 뒤로가기 버튼을 누르면?: onBackPress
+- 💡액티비티에서 홈 버튼을 눌렀을 때, 콜백 함수?: onUserLeaveHint
+- 💡Activity위에 dialog가 띄워질때 Activity수명주기는? 변화X
+- 💡Activity 3가지 상태: active / pause / stop
+- 💡Launch Mode 4가지 ?  standard / singleTop / singleInstance
+- 💡onSaveInstanceState: onStop에서 호출됨. UI데이터 저장 목적 onCreate()나 onRestoreInstanceState에서 
     <br>
   
 👉[click](https://velog.io/@dabin/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9CActivity-LifeCycle%EC%88%98%EB%AA%85%EC%A3%BC%EA%B8%B0)
@@ -113,22 +111,47 @@
    - `등장배경`
      - 1) Activity 안에 코드가 길어지게 되면 코드가 길어지니까 유지보수할 때 관리가 어려워짐
      - 2) 안드로이드 디바이스는 휴대폰,태블릿 등 다양하기 때문에 태블릿UI를 고려할 때 단순 Activity로 화면을 그리기에 한계가 있음
+
+- `장점`  
+  - 앱의 단일 화면이나 부분 화면을 프래그먼트로 구현하면 런타임 시 UI 모습을 사용자와 상호작용하면서 실시간으로 수정
+  -  '마이페이지 탭'을 클릭하면 마이페이지 화면이 나옵니다. 이러한 현상이 런타임동안 사용자와 상호작용을 하면서 앱의 UI가 실시간으로 바뀌는 것이라고 할 수 있습니다.(프래그먼트 추가/교체/삭제 등의 작업이 실행됨으로써 화면이 바뀌는 것처럼 보입니다.)
+
+- `주의`
+  - 프래그먼트는 재사용 가능한 자체 UI를 가지기 때문에 어느 Activity에나 호스팅 될 수 있고 어느 프래그먼트에나 호스팅 될 수 있습니다.
+  - 따라서 프래그먼트 클래스에는 자체 UI를 관리하는 로직만 구현해야 하고 다른 Activity나 다른 프래그먼트를 직접 조작하는 로직을 포함해서는 안됩니다.(모듈성, 재사용성을 해치게 됨)
+  - 즉, 프래그먼트가 다른 Activity나 프래그먼트에 의존하면 안됩니다.
   
 - `구조`
    - Object클래스 상속, 그외 다양한 인터페이스 구현
+    
   
 - `사용법`
-   - Fragment클래스 의 하위 클래스 생성
+   - Fragment 라이브러리 추가
+   - Fragment클래스의 하위 클래스 생성
+   - Fragment의 2가지 생성자 중 선택, default생성자를 사용했을 시 onCreateView를 구현해야함
    - Activity / Fragment에 호스팅
+  
      - 이때 Activity는  FragmentActivity 를 상속하는 Activity여야함 (AppCompactActivity가 상속중)
-     - 1) Activity UI 레이아웃 안에 프래그먼트 존재를 정의하여 Activity UI가 Activity 클래스에 inflate될 때 프래그먼트 자체 UI도 자동으로 프래그먼트 클래스에 inflate 시키는 방법
-     - 2) Activity UI 레이아웃 안에 프래그먼트 컨테이너(=이 위치에 프래그먼트 자체 UI가 배치될 것입니다~ 라고 위치를 지정해두는 것)를 정의하고 프로그래밍적으로 해당 컨테이너 안에 프래그먼트를 추가(Add)하는 방법
-  * 주의할 점은 두 방법 모두 Activity UI 레이아웃 안에 FragmentContainerView 를 정의함으로써 해당 프래그먼트가 배치될 위치를 정의해야 한다는 점입니다.
-    - 프래그먼트를 추가/교체/삭제
+  
+     - 1) Activity UI 레이아웃 안에 프래그먼트 존재를 name속성을 이용해 정의하여 Activity UI가 Activity 클래스에 inflate될 때 프래그먼트 자체 UI도 자동으로 프래그먼트 클래스에 inflate 시키는 방법
+       - android:name 속성의 내부 동작은 다음과 같습니다. Activity UI 레이아웃이 inflate되는 과정에서 FragmentContainerView가 inflate될 때 자동으로 android:name 속성에 지정된 프래그먼트를 새로운 인스턴스로 생성
+  
+     - 2) Activity UI 레이아웃 안에 프래그먼트 컨테이너를 정의하고 프로그래밍적으로 해당 컨테이너 안에 프래그먼트를 추가(Add)하는 방법
+      - Activity가 running 상태일 동안(=런타임 동안 =사용자가 앱을 사용할 동안) 프래그먼트 컨테이너 안에 프로그래밍적으로 프래그먼트를 추가/교체/삭제
       - 백 스택(Back Stack) 에 프래그먼트 작업에 의한 변경 사항을 push 및 pop 하는 작업을 담당하는 클래스인 FragmentManager필요
-      - 프래그먼트 추가/교체/삭제 작업을 제공하는 메서드는 추상클래스인 FragmentTransaction이 정의       - FragmentTransaction 하위클래스인 FragmentManager클래스 인스턴스화한후 beginTransaction호출해서 FragmentTransactioin인스턴스 얻음
+      - 프래그먼트 추가/교체/삭제 작업을 제공하는 메서드는 추상클래스인 FragmentTransaction이 정의
+      - FragmentManager 클래스도 public 클래스가 아닌 abstract 클래스(추상 클래스)입니다. 이 추상 클래스는 FragmentActivity 클래스에 구현되어 있기 때문에 getSupportFragmentManager() 함수를 호출해 매니저를 얻음
+      - FragmentTransaction 하위클래스인 FragmentManager클래스 인스턴스화한후 beginTransaction호출해서 FragmentTransactioin인스턴스 얻음
       - 트랜잭션을 생성 후 프래그먼트 작업 명시한 후 commit()
       - commit함수를 호출해야만 FramgmentManager가 해당 FramgmentTransaction 수행을 예약 합니다
+        - commit: 호출하면 호출한 순간에 해단 트랜잭션이 즉시 수행되는 것이 아니라 메인쓰레드에 해당 트랜잭션이 예약됩니다
+        - commitNow:  메인 쓰레드에서 커밋한 순간 즉시 수행, 호출하면 호출한 즉시 해당 프래그먼트 트랜잭션이 동기적으로 수행=동기적
+          - 그러나 commitNow() 함수를 호출하여 프래그먼트 트랜잭션을 커밋하면 addToBackStack() 함수가 예상한대로 동작하지 않을 수 있다는 점
+          - addToBackStack() 함수를 포함하는 여러 트랜잭션이 존재하고 이를 commit() 과 commitNow() 함수를 혼용하여 커밋한다면 개발자가 의도한 백 스택 저장 순서를 100% 보장할 수 없습니다.
+  
+  
+  * 주의할 점은 두 방법 모두 Activity UI 레이아웃 안에 FragmentContainerView 를 정의함으로써 해당 프래그먼트가 배치될 위치를 정의해야 한다는 점입니다.
+    
   
 - `유사기술` = Activity
    
@@ -165,18 +188,29 @@
  </details>
  
 <details>
-      <summary><span style="border-bottom:0.05em solid"><strong>  Activity의 LifeCycle </strong></span></summary>    
+      <summary><span style="border-bottom:0.05em solid"><strong>  🤞Activity의 LifeCycle </strong></span></summary>    
 <br />
 
   
 - 수명주기란 Activity 클래스가 생성되거나, 중단 또는 다시 시작하거나, 종료되는 등의 'Activity의 상태'를 수명주기라고 할 수 있습니다
-- Activity 는 수명 주기 단계 간 상태전환을 알아차릴 수 있는 6가지 콜백 onCreate(), onStart(), onResume(), onPause(), onStop(), onDestroy() 제공합니다 이러한 수명주기 콜백을 잘 구현하면 아래와 같은 문제가 발생하지 않도록 예방하는 데 도움이 될 수 있습니다.
+- Activity 는 수명 주기 단계 간 상태전환을 알아차릴 수 있는 6가지 콜백 onCreate(), onStart(), onResume(), onPause(), onStop(), onDestroy() 제공합니다 
+- 각 상태변화에 적합한 작업을 실행할 수 있도록 개발자는 Activity의 수명주기를 제대로 아는 것이 중요합니다
+
+- 각 수명주기 설명하면서,,
+  - 최초로 activity 가 실행되면 수명주기는 사용자와 상호작용하는 onResume상태에 머물게 됩니다
+  - onCreate: 전체 수명주기 동안 한번만 발생하는 초기화 작업, saveInstanceState수신 단계
+  - onPause: activity가 백그라운드로 진입할떄나 일부가 가려질때, 투명한 Activity가 기존 Activity 위에 띄워질 때 호출됩니다
+  - onStop: Activity가 완전히 가려질 때 호출, 홈버튼 누르면 onUserLeaveHint->onPause-> onStop호출-> 다시 사용자 눈에 보이는 시점에 onRestart가 호출되어 onStart를 호출
+  - onDestroy: finish(), 뒤로가기 버튼 onBackPress, 기기 회전
+- 그 외에 Activity위에 dialog를 띄울때는 어떠한 수명주기 호출도 되지 않고, 사용자가 홈버튼을 누를때 콜백되는 onUserLeaveHint 콜백을 이용해서도 Activity 상태전환에 따른 로직을 작성할 수 있습니다   
+  
   
 - 액티비티는 크게 3가지 상태가 존재합니다.
    - running 실행 상태는 액티비티 스택의 최상위에 있으며 포커스를 가지고 있어 사용자에게 보이는 상태입니다. 
    - pasued 일시 중지 상태는 사용자에게 보이기는 하지만 다른 액티비티가 위에 있어 포커스를 받지 못하는 상태입니다.
    - stopped 중지 상태는 다른 액티비티에 의해 완전히 가려져 보이지 않는 상태를 말합니다.
-   
+  
+  
    ![image (1)](https://user-images.githubusercontent.com/84564695/187110702-3f13eb5c-d5bb-4ead-a403-ba0e27f84d31.png)
 
 👉[click](https://velog.io/@dabin/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9CActivity-LifeCycle%EC%88%98%EB%AA%85%EC%A3%BC%EA%B8%B0#%EC%88%98%EB%AA%85%EC%A3%BC%EA%B8%B0%EB%9E%80)
@@ -185,9 +219,14 @@
 </details>
 
 <details>
-       <summary><span style="border-bottom:0.05em solid"><strong>  Fragment의 LifeCycle  </strong></span></summary>    
+       <summary><span style="border-bottom:0.05em solid"><strong>  🤞Fragment의 LifeCycle  </strong></span></summary>    
 <br />
    
+- onCreateView: layout이 inflate되어 view가 초기화되는 단계
+- onViewCreate: view가 완전히 만들어진 시점이므로 view참조를 안전하게 할 수 있음
+- onDestroyViwew: 프래그먼트와 연결된 view제거
+  *Fragment는 view의 수명주기가 Fragment자체 생명주기보다 짧아서 view는 소멸했는데 Fragment인스턴스가 view를 참조하고 있을 수 있음. 따라서 onDestroyView에서 binding참조 변수를 bull로 초기화하는 코드를 작성해 메모리에서 지워줘야함
+  
 ![ㅁㅁ](https://user-images.githubusercontent.com/84564695/187110664-a727c532-9afe-427f-a2be-104b74c1e6cf.jpg)
 
 👉[click](https://abundant-playground-8c8.notion.site/LifeCycle-Activity-Fragment-89e3dd9483c04ef68151187fe04b0a84)
@@ -196,11 +235,12 @@
  </details>
  
  <details>
-       <summary><span style="border-bottom:0.05em solid"><strong>  ☘FragmentTransaction</strong></span></summary>    
+       <summary><span style="border-bottom:0.05em solid"><strong>  ☘🤞FragmentTransaction</strong></span></summary>    
 <br />
    
 - FragmentTransaction 클래스는 abstract 클래스(추상 클래스)입니다. 
   - FragmentManager 클래스에 구현되어 있기 때문에 FragmentTransaction 클래스를 사용하기 위해 FragmentManager 클래스가 제공하는 beginTransaction함수 호출을 통해 FragmentTransaction 인스턴스를 생성해야합니다
+  - FragmentManager도 추상 클래스이고 해당 클래스는 ActivityFragment가 상속하기 때문에 AppCompackActivity하위 클래스에서 사용가능
   - FragmentManager가 수행할 단일 단위
   - 따라서 하나의 FramgmentTransaction 단위 내에 FramgmentTransaction 클래스가 제공하는 프래그먼트 추가/삭제/교체 작업 등을 명시하면 됩니다
   
@@ -217,6 +257,11 @@
     - detach는 해당 프래그먼트가 자신의 자체 UI로부터 떼지고(=inflate되어 있던 프래그먼트 클래스와 자체 UI가 deflate된다는 의미) 자체 UI 뷰 계층은 파괴되는 것입니다. 
     - 따라서 fragment객체는 메모리에 남아있고 onDestroyView까지만 호출되는 것을 확인할 수 있습니다.
   - `show()/hide()`: 프래그먼트 컨테이너에 쌓인 자체 UI 순서에 영향을 주지 않고 자신이 쌓여있는 위치에서 사용자 눈에서 보이기/안보이기 설정만 바뀌는 겁니다  
+ 
+  
+ - 백스택에 프래그먼트 트랜잭션 기록하기
+  - Activity는 백스택에 Activity가 쌓이는 작업이 자동으로 되지만 프래그먼트는 자동으로 안됩니다. 따라서 프래그먼트 트랜잭션 내부에 백스택에 기록하겠다는 addToBackStack함수를 호출해야만 해당 프래그먼트 트랜잭션이 백스택에 저장됨
+  - FragmentTransaction 클래스가 제공하는 popBackStack() 함수를 호출하면 백스택에 저장되어 있는 프래그먼트 트랜잭션 중 스택의 가장 최상단에 존재하는 트랜잭션이 pop되어 사라집니다(프래그먼트 관리자가 백스택을 관리하는 역할을 함)     - 사용자가 뒤로 버튼을 눌렀을때 내부적으로 popBackStack() 함수가 호출됩니다
   
   
 👉[click](https://abundant-playground-8c8.notion.site/LifeCycle-Activity-Fragment-89e3dd9483c04ef68151187fe04b0a84)
@@ -1517,3 +1562,75 @@ AsyncTask는 그 이름에서도 알 수 있듯이, 비동기(Asynchronous)적�
  ***
 </details>
   
+<details>
+   <summary><span style="border-bottom:0.05em solid"><strong>스레드 VS 코루틴</strong></span></summary>
+  
+- `공통점`  
+- 스레드, 코루틴 둘다 '비동기 처리'를 하기 위함  
+- 둘다 '동시성 프로그래밍'을 위한 기술(병렬과 반대되어 task들을 잘개 쪼개 번갈아가며 수행하는 기법)
+- 동기 : 어떤 요청을 보낸 뒤, 그 요청의 결과값을 얻기까지 작업을 멈추는 것
+- 비동기 : 어떤 요청을 보낸 뒤, 그 요청의 결과값이 오기까지 멈추지 않고 또 다른 일을 수행하는 것
+  
+ - `차이점`
+  <img width="1342" alt="images_haero_kim_post_1d041a32-90b2-4c4d-b89b-b125494089b3_context-switch-between-threads" src="https://user-images.githubusercontent.com/84564695/193725914-6ae55815-593d-4d64-b494-8ca5c85123d8.png">
+
+ - 스레드 
+   - 작업 하나하나의 단위 : Thread
+   - 각 Thread 가 독립적인 Stack 메모리 영역 가짐
+   - 동시성 보장 수단 : Context Switching 
+   - Thread A 에서 Task 1 을 수행하다가 Task 2 의 결과가 필요할 때, 비동기적으로 Thread B 를 호출을 하게 된다. 이 때 Thread A 는 블로킹되고, Thread B 로 Context Switching 이 일어나 Task 2 를 수행한다. Task 2 가 완료되면, 다시 Thread A 로 Context Switching 이 일어나 결과값을 Task 1 에 반환한다.
+  
+<img width="1347" alt="images_haero_kim_post_96cd2cfd-4539-4417-9f13-ab905446e0e2_no-context-switch-between-coroutines" src="https://user-images.githubusercontent.com/84564695/193726168-93565e65-c78f-446f-a231-2a88a4456a8e.png">
+
+ - 코루틴
+   - 작업 하나하나의 단위 : Object
+   - 여러 작업 각각에 Object 를 할당함
+   - Coroutine Object 도 엄연한 객체이기 때문에 JVM Heap 에 적재 됨 (코틀린 기준)
+   - 동시성 보장 수단 : Context Switching 없음
+   - Suspend (Non-Blocking) : Object 1 이 Object 2 의 결과가 나오기까지 기다려야 한다면, Object 1 은 Suspend 되지만, Object 1 을 수행하던 Thread 는 그대로 유효하기 때문에 Object 2 도 Object 1 과 동일한 Thread 에서 실행될 수 있음
+   - 작업 단위는 Coroutine Object 이므로, Task 1 을 수행하다가 비동기 작업 Task 2 가 발생하더라도, Context Switching 없이 같은 Thread 에서 Task 2 를 수행할 수 있고, 맨 오른쪽 경우처럼 하나의 Thread 에서 여러 Coroutine Object 들을 같이 수행할 수도 있다. 한 쓰레드에서 다수의 Coroutine 을 수행할 수 있고, Context Switching 이 필요없는 특성에 따라 Coroutine 을 Light-weight Thread 라고 부르는 것이다.
+  
+- Coroutine 은 Thread 의 대안이 아니라, Thread 를 더 잘게 쪼개어 사용하기 위한 '경량 스레드'개념이다.
+- 작업의 단위를 Object 로 축소하면서 하나의 Thread 가 다수의 코루틴을 다룰 수 있기 때문에, 작업 하나하나에 Thread 를 할당하며 메모리 낭비, Context Switching 비용 낭비를 할 필요가 없음  
+- 코루틴이 쓰레드의 대안으로 등장한 것이 아니고, 효율성을 높일 수 있는 동시성 보장 방법
+  
+[click](https://velog.io/@haero_kim/Thread-vs-Coroutine-%EB%B9%84%EA%B5%90%ED%95%B4%EB%B3%B4%EA%B8%B0)  
+  
+ ***
+</details>
+  
+<details>
+   <summary><span style="border-bottom:0.05em solid"><strong> PNG와 JPG의 차이점은?</strong></span></summary>
+  
+PNG 파일은 비손실압축 방식이라 원본이 훼손이 되지 않습니다. 반면 JPG 파일은 손실압축으로 원본 자체가 훼손됩니다.
+
+ ***
+</details>  
+  
+  
+<details>
+   <summary><span style="border-bottom:0.05em solid"><strong> ConstraintLayout의 장점은?</strong></span></summary>
+  
+- 복잡한 레이아웃을 단순한 계층 구조로 표현하여 이용할 수 있게하는 ViewGroup
+- 복잡한 계층 구조로 레이 아웃을 구성하는 방식에서 자유로워질 수 있다.
+- 형제 View들과 관계를 정의해서 레이아웃을 구성한다는 점이 RelativeLayout과 비슷하지만, 자식뷰들간의 관계 정의가 가능하고 RelativeLayout보다 유연하고 다양한 기능을 제공한다.
+  
+- Constraint (제약 조건)
+  - view의 위치를 정의하려면 보기의 가로/세로 제약 조건을 각각 하나 이상 추가해야한다.(match_parent로 두지 않은 경우)
+  - constraintLayout에서 자식 뷰의 위치를 잡는 기준 다른 뷰나 부모 레이아웃과의 정렬조건/ 연결 관계
+  - start, end 속성은 left, right 속성보다 우선됨
+  
+ ***
+</details>  
+  
+<details>
+   <summary><span style="border-bottom:0.05em solid"><strong> WeakReference?</strong></span></summary>
+  
+WeakReference는 Reference를 상속받고 있다. 
+Reference는 메모리 누수를 막기 위해서 사용된다.
+
+Reference의 종류는 StrongReference, PhantomReference, SoftReference, WeakReference가 있다.
+
+ ***
+</details>  
+    
