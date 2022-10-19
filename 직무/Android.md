@@ -225,7 +225,7 @@
 - onCreateView: layout이 inflate되어 view가 초기화되는 단계
 - onViewCreate: view가 완전히 만들어진 시점이므로 view참조를 안전하게 할 수 있음
 - onDestroyViwew: 프래그먼트와 연결된 view제거
-  *Fragment는 view의 수명주기가 Fragment자체 생명주기보다 짧아서 view는 소멸했는데 Fragment인스턴스가 view를 참조하고 있을 수 있음. 따라서 onDestroyView에서 binding참조 변수를 bull로 초기화하는 코드를 작성해 메모리에서 지워줘야함
+  *Fragment는 view의 수명주기가 Fragment자체 생명주기보다 짧아서 프래그먼트의 모든 View 요소들은 제거됐는데 View를 참조하는 바인딩 인스턴스가 소멸된 View를 계속 참조 ->인스턴스가 죽지 않고 Memory Leak을 발생시킬 수 있음-> 따라서 onDestroyView에서 binding참조 변수를 bull로 초기화하는 코드를 작성해 메모리에서 지워줘야함
   
 ![ㅁㅁ](https://user-images.githubusercontent.com/84564695/187110664-a727c532-9afe-427f-a2be-104b74c1e6cf.jpg)
 
